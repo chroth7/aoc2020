@@ -18,4 +18,6 @@ sortedAlgo (x:xs) (y:ys)
   | x + y > target  = sortedAlgo (x: xs) ys
 
 
-
+-- not a nice implementation, but given the size of the list...
+triplet2020 :: [Int] -> (Int, Int, Int)
+triplet2020 xs =  head [(x, y, z) | x <- xs, y <- xs, z <- xs, x + y + z == target, x /= y, x /= z, y /= z]

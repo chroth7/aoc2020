@@ -1,6 +1,6 @@
 module Lib where
 
-import SumTo2020
+import SumTo2020 
 
 
 
