@@ -8,12 +8,12 @@ cabal-version: 1.12
 
 name:           aoc2020
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/aoc2020#readme>
-homepage:       https://github.com/githubuser/aoc2020#readme
-bug-reports:    https://github.com/githubuser/aoc2020/issues
-author:         Author name here
+description:    Please see the README on GitHub at <https://github.com/chroth7/aoc2020#readme>
+homepage:       https://github.com/chroth7/aoc2020#readme
+bug-reports:    https://github.com/chroth7/aoc2020/issues
+author:         Chris
 maintainer:     example@example.com
-copyright:      2020 Author name here
+copyright:      2020 Chris
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -59,4 +59,5 @@ test-suite aoc2020-test
   build-depends:
       aoc2020
     , base >=4.7 && <5
+    , QuickCheck
   default-language: Haskell2010
