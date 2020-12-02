@@ -1,10 +1,10 @@
 name:                aoc2020
 version:             0.1.0.0
-github:              "githubuser/aoc2020"
+github:              "chroth7/aoc2020"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2020 Author name here"
+author:              "Chris"
+maintainer:          "chroth@me.com"
+copyright:           "2020 Chris"
 
 extra-source-files:
 - README.md
@@ -24,6 +24,8 @@ dependencies:
 
 library:
   source-dirs: src
+  dependencies: 
+  - text
 
 executables:
   aoc2020-exe:

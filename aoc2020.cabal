@@ -4,16 +4,16 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a5703c29b3711841bf324d415bcc27545359943ac4922202c7ba2203e7fc208d
+-- hash: 8a7b171b621f26086988f94a3e47aef12a7afb6662ace4e0f6b0a92228bd6cc1
 
 name:           aoc2020
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/aoc2020#readme>
-homepage:       https://github.com/githubuser/aoc2020#readme
-bug-reports:    https://github.com/githubuser/aoc2020/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2020 Author name here
+homepage:       https://github.com/chroth7/aoc2020#readme
+bug-reports:    https://github.com/chroth7/aoc2020/issues
+author:         Chris
+maintainer:     chroth@me.com
+copyright:      2020 Chris
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -23,12 +23,13 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/aoc2020
+  location: https://github.com/chroth7/aoc2020
 
 library
   exposed-modules:
       AddXY
       Lib
+      PasswordsManagement
       SumTo2020
   other-modules:
       Paths_aoc2020
@@ -36,6 +37,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , text
   default-language: Haskell2010
 
 executable aoc2020-exe
@@ -54,6 +56,7 @@ test-suite aoc2020-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      PasswordsManagementSpec
       SumTo2020Spec
       Paths_aoc2020
   hs-source-dirs:
