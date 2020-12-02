@@ -1,12 +1,16 @@
 module PasswordsManagement 
   ( PasswordRule(..)
   , parseRule
-  , validateRule
+  , validateRuleToboggan
+  , validateRuleSanta
   , validatePasswordString
-  , countValidPasswords
+  , countValidPasswordsToboggan
+  , countValidPasswordsSanta
+  , safeBangBang
   ) where
 
 import qualified Data.Text as T
+import Data.Maybe (fromJust)
 
 data PasswordRule = PasswordRule { minCount :: Int
                                  , maxCount :: Int
@@ -32,12 +36,35 @@ parseRule input = let packedInput = T.pack input
 countLettersInString :: Char -> String -> Int
 countLettersInString c str = length $ filter (== c) str
 
-validateRule :: PasswordRule -> Bool
-validateRule rule = count <= maxCount rule && count >= minCount rule
+type VerificationRule = PasswordRule -> Bool
+
+validateRuleToboggan :: VerificationRule
+validateRuleToboggan rule = count <= maxCount rule && count >= minCount rule
   where count = countLettersInString (head $ letter rule) $ password rule
 
-validatePasswordString :: String -> Bool
-validatePasswordString = validateRule . parseRule
+safeBangBang :: Int -> [a] -> Maybe a
+safeBangBang index list = if index > length list - 1 then Nothing else Just (list !! index)
 
-countValidPasswords :: [String] -> Int
-countValidPasswords inputs = length $ filter (==True) $ map validatePasswordString inputs
+matchCharacter :: Eq a => a -> Int -> [a] -> Bool
+-- matchCharacter s index list = isJust bb && (fromJust bb == s)
+matchCharacter s index list = bb == Just s
+  where bb = safeBangBang (index - 1) list
+
+xor :: Bool -> Bool -> Bool
+xor True False = True
+xor False True = True
+xor _ _ = False
+
+validateRuleSanta :: VerificationRule
+validateRuleSanta rule = matchFirst `xor` matchSecond
+  where matchFirst = matchCharacter (head $ letter rule) (minCount rule) (password rule)
+        matchSecond = matchCharacter (head $ letter rule) (maxCount rule) (password rule)
+
+validatePasswordString :: VerificationRule -> String -> Bool
+validatePasswordString rule = rule . parseRule
+
+countValidPasswordsToboggan :: [String] -> Int
+countValidPasswordsToboggan inputs = length $ filter (==True) $ map (validatePasswordString validateRuleToboggan) inputs
+
+countValidPasswordsSanta :: [String] -> Int
+countValidPasswordsSanta inputs = length $ filter (==True) $ map (validatePasswordString validateRuleSanta) inputs

@@ -14,7 +14,9 @@ main = do
   contentsDay2 <- readFile "inputs/day2.txt"
   let passwords = lines contentsDay2 
   putStrLn "Day2.1"
-  print $ countValidPasswords passwords
+  print $ countValidPasswordsToboggan passwords
+  putStrLn "Day2.2"
+  print $ countValidPasswordsSanta passwords
 
 readInt :: [String] -> [Int]
 readInt = map read
