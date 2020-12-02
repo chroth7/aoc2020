@@ -14,3 +14,7 @@ spec = do
   describe "Validate one password" $ do
     it "should parse a rule" $ do
       parseRule (head testInput) `shouldBe` PasswordRule { minCount=1, maxCount=3, letter="a", password="abcde" }
+    it "validates one" $ do
+      (validateRule $ parseRule (head testInput)) `shouldBe` True
+    it "validates many" $ do
+      map validatePasswordString testInput `shouldBe` [True, False, True]
