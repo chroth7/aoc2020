@@ -3,6 +3,7 @@ module PasswordsManagement
   , parseRule
   , validateRule
   , validatePasswordString
+  , countValidPasswords
   ) where
 
 import qualified Data.Text as T
@@ -37,3 +38,6 @@ validateRule rule = count <= maxCount rule && count >= minCount rule
 
 validatePasswordString :: String -> Bool
 validatePasswordString = validateRule . parseRule
+
+countValidPasswords :: [String] -> Int
+countValidPasswords inputs = length $ filter (==True) $ map validatePasswordString inputs

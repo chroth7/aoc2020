@@ -18,3 +18,5 @@ spec = do
       (validateRule $ parseRule (head testInput)) `shouldBe` True
     it "validates many" $ do
       map validatePasswordString testInput `shouldBe` [True, False, True]
+    it "also counts" $ do
+      countValidPasswords testInput `shouldBe` 2
