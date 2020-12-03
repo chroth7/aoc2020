@@ -1,4 +1,4 @@
-module Toboggan 
+module Toboggan
   ( toboggan
   , tobogganRunBasic
   , tobogganRun
@@ -18,7 +18,7 @@ tobogganRun = toboggan 0
 toboggan :: Index -> Landscape -> Movement -> Int
 toboggan _ []  _= 0
 toboggan index land move@(down, right) = n + toboggan nextIndex (drop down land) move
-  where 
+  where
     row = head land
     nextIndex = (index + right) `rem` length row
     n = if (row !! index) == '#' then 1 else 0

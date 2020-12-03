@@ -1,7 +1,7 @@
-module TobogganSpec where 
+module TobogganSpec where
 
-import Test.Hspec
-import Toboggan
+import           Test.Hspec
+import           Toboggan
 
 main :: IO ()
 main = hspec spec

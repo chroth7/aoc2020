@@ -1,6 +1,6 @@
 module SumTo2020 where
 
-import Data.List
+import           Data.List
 
 target :: Int
 target = 2020

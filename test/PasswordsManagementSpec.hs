@@ -1,7 +1,7 @@
-module PasswordsManagementSpec where 
+module PasswordsManagementSpec where
 
-import Test.Hspec
-import PasswordsManagement
+import           PasswordsManagement
+import           Test.Hspec
 
 main :: IO ()
 main = hspec spec

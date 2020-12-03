@@ -1,7 +1,7 @@
-module SumTo2020Spec where 
+module SumTo2020Spec where
 
-import Test.Hspec
-import SumTo2020
+import           SumTo2020
+import           Test.Hspec
 
 main :: IO ()
 main = hspec spec

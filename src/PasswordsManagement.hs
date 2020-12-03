@@ -1,4 +1,4 @@
-module PasswordsManagement 
+module PasswordsManagement
   ( PasswordRule(..)
   , parseRule
   , validateRuleToboggan
@@ -9,12 +9,12 @@ module PasswordsManagement
   , safeBangBang
   ) where
 
-import qualified Data.Text as T
-import Data.Maybe (fromJust)
+import           Data.Maybe (fromJust)
+import qualified Data.Text  as T
 
 data PasswordRule = PasswordRule { minCount :: Int
                                  , maxCount :: Int
-                                 , letter :: String
+                                 , letter   :: String
                                  , password :: String
                                  } deriving (Show, Eq)
 
@@ -23,11 +23,11 @@ parseToInt t = (read $ T.unpack t) :: Int
 
 parseRule :: String -> PasswordRule
 parseRule input = let packedInput = T.pack input
-  in 
+  in
     let (min:restMin) = T.splitOn (T.pack "-") packedInput
         (max:restMax) = T.splitOn (T.pack " ") (head restMin)
         [letter, password] = restMax
-    in PasswordRule 
+    in PasswordRule
       { minCount=parseToInt min
       , maxCount=parseToInt max
       , letter=init $ T.unpack letter
@@ -53,7 +53,7 @@ matchCharacter s index list = bb == Just s
 xor :: Bool -> Bool -> Bool
 xor True False = True
 xor False True = True
-xor _ _ = False
+xor _ _        = False
 
 validateRuleSanta :: VerificationRule
 validateRuleSanta rule = matchFirst `xor` matchSecond
