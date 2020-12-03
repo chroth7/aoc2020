@@ -2,6 +2,7 @@ module Main where
 
 import SumTo2020
 import PasswordsManagement
+import Toboggan
 
 main :: IO ()
 main = do 
@@ -17,6 +18,12 @@ main = do
   print $ countValidPasswordsToboggan passwords
   putStrLn "Day2.2"
   print $ countValidPasswordsSanta passwords
+  contentsDay3 <- readFile "inputs/day3.txt"
+  let landscape = lines contentsDay3 
+  putStrLn "Day3.1"
+  print $ tobogganRunBasic landscape
+  putStrLn "Day3.2"
+  print $ product $ map (tobogganRun landscape) [(1, 1), (1, 3), (1, 5), (1, 7), (2, 1)]
 
 readInt :: [String] -> [Int]
 readInt = map read

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8a7b171b621f26086988f94a3e47aef12a7afb6662ace4e0f6b0a92228bd6cc1
+-- hash: c932a4f8246ae496a75f4e68fa94fad4cc458febd7bda10e24dc9aff616d17c9
 
 name:           aoc2020
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Lib
       PasswordsManagement
       SumTo2020
+      Toboggan
   other-modules:
       Paths_aoc2020
   hs-source-dirs:
@@ -58,6 +59,7 @@ test-suite aoc2020-test
   other-modules:
       PasswordsManagementSpec
       SumTo2020Spec
+      TobogganSpec
       Paths_aoc2020
   hs-source-dirs:
       test
