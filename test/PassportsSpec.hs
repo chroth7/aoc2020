@@ -26,3 +26,11 @@ spec = do
   describe "Read inputs" $ do
     it "Reads inputs (check length as we are lazy)" $ do
       (length $ readPassports testInput) `shouldBe` 4
+    it "Parses PassportString" $ do
+      stringToPassportCandidate "a:123 b:3e21 foo:bar" `shouldBe` [("a", "123"), ("b", "3e21"), ("foo", "bar")]
+    it "validates Passports" $ do
+      validatePassport [("a", "123"), ("b", "3e21"), ("foo", "bar")] `shouldBe` False
+      validatePassport [("byr", "123"),("iyr", "123"), ("eyr", "123"), ("hgt", "123"), ("hcl", "123"), ("ecl", "123"), ("pid", "123")]
+        `shouldBe` True
+    it "validates multiple passports" $ do
+      validatePassports (readPassportsToCandidates testInput) `shouldBe` [True, False, True, False]
