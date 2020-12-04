@@ -33,7 +33,10 @@ expectedKeys :: [String]
 expectedKeys = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"] -- cid optional
 
 validatePassport :: PassportCandidate -> Bool
-validatePassport candidate = all (`elem` passportKeys) expectedKeys
+validatePassport candidate = and $ [validatePassportKeys] <*> pure candidate
+
+validatePassportKeys :: PassportCandidate -> Bool
+validatePassportKeys candidate = all (`elem` passportKeys) expectedKeys
   where passportKeys = map fst candidate
 
 validatePassports :: [PassportCandidate] -> [Bool]
