@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b7dfd27a609548a7c52afc3daae89f8fc620fd8057cf21bf90b5ff185e9ba5cc
+-- hash: dd50dd94cc21fe378a4974bf48dcd6f7c661ab3f9e626e2067b9bf86ba6a5ce8
 
 name:           aoc2020
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       AddXY
+      Boarding
       Lib
       Passports
       PasswordsManagement
@@ -59,6 +60,7 @@ test-suite aoc2020-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      BoardingSpec
       PassportsSpec
       PasswordsManagementSpec
       SumTo2020Spec

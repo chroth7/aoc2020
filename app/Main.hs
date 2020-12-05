@@ -1,5 +1,6 @@
 module Main where
 
+import           Boarding
 import           Passports
 import           PasswordsManagement
 import           SumTo2020
@@ -33,6 +34,12 @@ main = do
   print $ length $ filter (==True) $ validatePassportsEasy $ readPassportsToCandidates contentsDay4
   putStrLn "Day4.2"
   print $ length $ filter (==True) $ validatePassports $ readPassportsToCandidates contentsDay4
+
+  contentsDay5 <- readFile "inputs/day5.txt"
+  putStrLn "Day5.1"
+  print $ maximum $ map getSeatId (lines contentsDay5)
+  putStrLn "Day5.2"
+  print $ findMissing $ map getSeatId (lines contentsDay5)
 
 
 readInt :: [String] -> [Int]
