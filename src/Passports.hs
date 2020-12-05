@@ -48,7 +48,7 @@ validationRulesEasy :: [PassportCandidate -> Bool]
 validationRulesEasy = [validatePassportKeys]
 
 validationRules :: [PassportCandidate -> Bool]
-validationRules = [validatePassportKeys, validateByr, validateIyr, validateEyr, validateHgt]
+validationRules = [validatePassportKeys, validateByr, validateIyr, validateEyr, validateHgt, validateHcl, validateEcl, validatePid]
 
 validatePassportEasy :: PassportCandidate -> Bool
 validatePassportEasy candidate = and $ validationRulesEasy <*> pure candidate
@@ -65,6 +65,15 @@ validatePassportKeys candidate = all (`elem` passportKeys) expectedKeys
 
 isYear :: String -> Bool
 isYear = (=~ "^[0-9]{4}$")
+
+isHcl :: String -> Bool
+isHcl = (=~ "^#[0-9a-f]{6}$")
+
+isPid :: String -> Bool
+isPid = (=~ "^[0-9]{9}$")
+
+isEcl :: String -> Bool
+isEcl s = s `elem` ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
 
 isHeight :: String -> Bool
 isHeight = (=~ "^[0-9]{2,3}(cm|in)$")
@@ -104,3 +113,15 @@ validateEyr candidate = isYear eyr
 validateHgt :: ValidationRule
 validateHgt candidate = isHeight hgt && isValidHeight hgt
   where hgt = retrieveValue "hgt" candidate
+
+validateHcl :: ValidationRule
+validateHcl candidate = isHcl hcl
+  where hcl = retrieveValue "hcl" candidate
+
+validateEcl :: ValidationRule
+validateEcl candidate = isEcl ecl
+  where ecl = retrieveValue "ecl" candidate
+
+validatePid :: ValidationRule
+validatePid candidate = isPid pid
+  where pid = retrieveValue "pid" candidate
