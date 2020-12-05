@@ -3,11 +3,14 @@ module Passports
   , readPassportsToCandidates
   , stringToPassportCandidate
   , validatePassport
+  , validatePassportEasy
   , validatePassports
   , validatePassportsEasy
+  , isValidHeight
   ) where
 
 import           Data.Bifunctor
+import           Data.Char
 import           Data.List
 import           Data.Maybe
 import           Text.Regex.Posix
@@ -45,7 +48,7 @@ validationRulesEasy :: [PassportCandidate -> Bool]
 validationRulesEasy = [validatePassportKeys]
 
 validationRules :: [PassportCandidate -> Bool]
-validationRules = [validatePassportKeys, validateByr, validateIyr, validateEyr]
+validationRules = [validatePassportKeys, validateByr, validateIyr, validateEyr, validateHgt]
 
 validatePassportEasy :: PassportCandidate -> Bool
 validatePassportEasy candidate = and $ validationRulesEasy <*> pure candidate
@@ -63,24 +66,41 @@ validatePassportKeys candidate = all (`elem` passportKeys) expectedKeys
 isYear :: String -> Bool
 isYear = (=~ "^[0-9]{4}$")
 
+isHeight :: String -> Bool
+isHeight = (=~ "^[0-9]{2,3}(cm|in)$")
+
+isValidHeight :: String -> Bool
+isValidHeight str = let
+  value = read $ takeWhile isDigit str
+  unit = dropWhile isDigit str
+  in
+    if unit == "cm"
+      then value >= 150 && value <= 193
+      else value >= 59 && value <= 76
+
 retrieveValue :: String -> PassportCandidate -> String
 retrieveValue key = snd . fromJust . find (\x -> fst x == key)
 
-validateByr :: PassportCandidate -> Bool
+type ValidationRule = PassportCandidate -> Bool
+
+validateByr :: ValidationRule
 validateByr candidate = isYear byr
   && read byr >= 1920
   && read byr <= 2002
   where byr = retrieveValue "byr" candidate
 
-validateIyr :: PassportCandidate -> Bool
+validateIyr :: ValidationRule
 validateIyr candidate = isYear iyr
   && read iyr >= 2010
   && read iyr <= 2020
   where iyr = retrieveValue "iyr" candidate
 
-validateEyr :: PassportCandidate -> Bool
+validateEyr :: ValidationRule
 validateEyr candidate = isYear eyr
   && read eyr >= 2020
   && read eyr <= 2030
   where eyr = retrieveValue "eyr" candidate
 
+validateHgt :: ValidationRule
+validateHgt candidate = isHeight hgt && isValidHeight hgt
+  where hgt = retrieveValue "hgt" candidate
