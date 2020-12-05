@@ -30,6 +30,8 @@ main = do
 
   contentsDay4 <- readFile "inputs/day4.txt"
   putStrLn "Day4.1"
+  print $ length $ filter (==True) $ validatePassportsEasy $ readPassportsToCandidates contentsDay4
+  putStrLn "Day4.2"
   print $ length $ filter (==True) $ validatePassports $ readPassportsToCandidates contentsDay4
 
 

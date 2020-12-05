@@ -26,6 +26,7 @@ library:
   source-dirs: src
   dependencies: 
   - text
+  - regex-posix
 
 executables:
   aoc2020-exe:
