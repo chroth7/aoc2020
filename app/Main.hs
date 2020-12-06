@@ -1,6 +1,7 @@
 module Main where
 
 import           Boarding
+import           Customs
 import           Passports
 import           PasswordsManagement
 import           SumTo2020
@@ -40,6 +41,10 @@ main = do
   print $ maximum $ map getSeatId (lines contentsDay5)
   putStrLn "Day5.2"
   print $ findMissing $ map getSeatId (lines contentsDay5)
+
+  contentsDay6 <- readFile "inputs/day6.txt"
+  putStrLn "Day6.1"
+  print $ sum $ countYes $ readCustomsGroups contentsDay6
 
 
 readInt :: [String] -> [Int]
