@@ -26,5 +26,7 @@ testInput = "abc\n\
 spec :: Spec
 spec = do
   describe "Count Yes" $ do
-    it "Does what it should" $ do
-      countYes (readCustomsGroups testInput) `shouldBe` [3, 3, 3, 1, 1]
+    it "Anyone" $ do
+      countYesAnyone (readCustomsGroups testInput) `shouldBe` [3, 3, 3, 1, 1]
+    it "Everyone" $ do
+      countYesEveryone (readCustomsGroups testInput) `shouldBe` [3, 0, 1, 1, 1]

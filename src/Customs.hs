@@ -1,6 +1,7 @@
 module Customs
   ( readCustomsGroups
-  , countYes
+  , countYesAnyone
+  , countYesEveryone
   ) where
 
 import           Data.List
@@ -20,5 +21,8 @@ linesFold str acc@(x:xs)
   | str == "" = [] : acc
   | otherwise = (str:x):xs
 
-countYes :: AnswerGroup -> [Int]
-countYes = map (length . group . sort . concat)
+countYesAnyone :: AnswerGroup -> [Int]
+countYesAnyone = map (length . group . sort . concat)
+
+countYesEveryone :: AnswerGroup -> [Int]
+countYesEveryone = map (length . foldl1 intersect)

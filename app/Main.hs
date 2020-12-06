@@ -44,7 +44,9 @@ main = do
 
   contentsDay6 <- readFile "inputs/day6.txt"
   putStrLn "Day6.1"
-  print $ sum $ countYes $ readCustomsGroups contentsDay6
+  print $ sum $ countYesAnyone $ readCustomsGroups contentsDay6
+  putStrLn "Day6.1"
+  print $ sum $ countYesEveryone $ readCustomsGroups contentsDay6
 
 
 readInt :: [String] -> [Int]
