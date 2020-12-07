@@ -27,6 +27,7 @@ library:
   dependencies: 
   - text
   - regex-posix
+  - containers
 
 executables:
   aoc2020-exe:
@@ -52,3 +53,4 @@ tests:
     - QuickCheck 
     - hspec
     - hspec-discover
+    - containers

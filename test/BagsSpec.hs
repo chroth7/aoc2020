@@ -1,6 +1,7 @@
 module BagsSpec where
 
 import           Bags
+import qualified Data.Map   as Map
 import           Test.Hspec
 
 main :: IO ()
@@ -21,4 +22,10 @@ spec :: Spec
 spec = do
   describe "Build the bags" $ do
     it "parsing" $ do
+      length (readInput testInput) `shouldBe` 9
+      length (allColors $ readInput testInput) `shouldBe` 9
+      allColors (readInput testInput) !! 2 `shouldBe` ["bright", "white"]
       stringToBag (head $ lines testInput) `shouldBe` Bag ["light", "red"] [(["bright", "white"], 1), (["muted", "yellow"], 2)]
+      stringToBag (last $ lines testInput) `shouldBe` Bag ["dotted", "black"] []
+      Map.size (containsGold (readInput testInput)) `shouldBe` 9
+      countContainsGold (readInput testInput) `shouldBe` 4
