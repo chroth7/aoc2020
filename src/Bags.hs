@@ -1,6 +1,6 @@
 module Bags
   ( Bag(..)
-  , readInput
+  , readInputDay7
   , parseContents
   , stringToBag
   , allColors
@@ -16,8 +16,8 @@ type Color = [String]
 type BagContent = (Color, Int)
 data Bag = Bag Color [BagContent] deriving (Show, Eq)
 
-readInput :: String -> [Bag]
-readInput input = map stringToBag $ lines input
+readInputDay7 :: String -> [Bag]
+readInputDay7 input = map stringToBag $ lines input
 
 stringToBag :: String -> Bag
 stringToBag str

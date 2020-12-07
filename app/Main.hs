@@ -1,5 +1,6 @@
 module Main where
 
+import           Bags
 import           Boarding
 import           Customs
 import           Passports
@@ -47,6 +48,10 @@ main = do
   print $ sum $ countYesAnyone $ readCustomsGroups contentsDay6
   putStrLn "Day6.1"
   print $ sum $ countYesEveryone $ readCustomsGroups contentsDay6
+
+  contentsDay7 <- readFile "inputs/day7.txt"
+  putStrLn "Day7.1"
+  print $ countContainsGold $ readInputDay7 contentsDay7
 
 
 readInt :: [String] -> [Int]
