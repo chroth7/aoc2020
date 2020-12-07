@@ -52,6 +52,8 @@ main = do
   contentsDay7 <- readFile "inputs/day7.txt"
   putStrLn "Day7.1"
   print $ countContainsGold $ readInputDay7 contentsDay7
+  putStrLn "Day7.2"
+  print $ whatsInMyGoldenBag $ readInputDay7 contentsDay7
 
 
 readInt :: [String] -> [Int]

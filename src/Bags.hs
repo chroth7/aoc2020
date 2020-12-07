@@ -3,9 +3,9 @@ module Bags
   , readInputDay7
   , parseContents
   , stringToBag
-  , allColors
   , containsGold
   , countContainsGold
+  , whatsInMyGoldenBag
   ) where
 
 import           Data.List
@@ -34,10 +34,7 @@ parseContents strs = (color, count) : parseContents (drop 4 strs)
         count = read $ head current
         color = take 2 $ drop 1 current
 
-allColors :: [Bag] -> [Color]
-allColors = map (\(Bag color _) -> color)
-
--- SHINY GOLD
+-- SHINY GOLD - BOTTOM UP (Day 7.1)
 
 type GoldenMap = Map.Map Color Bool
 
@@ -76,3 +73,17 @@ containsGoldItself conts = not (null filterForGold)
 
 anyContentsHasKnownGold :: [BagContent] -> GoldenMap -> Bool
 anyContentsHasKnownGold cont mp = any (\(col, _) -> Map.member col mp && fromJust (Map.lookup col mp)) cont
+
+-- TOP DOWN (What's in my bag? 7.2)
+whatsInMyGoldenBag :: [Bag] -> Int
+whatsInMyGoldenBag bags = whatsInTheBag bags myShinyGoldenBag - 1
+  where myShinyGoldenBag = colToBag bags ["shiny", "gold"]
+
+colToBag :: [Bag] -> Color -> Bag
+colToBag allBags col = fromJust $ find (\(Bag bagColor _) -> col == bagColor) allBags
+
+whatsInTheBag :: [Bag] -> Bag -> Int
+whatsInTheBag allBags (Bag _ cont)
+  | null cont = 1
+  | otherwise = 1 + sum (map (\(c1, i1) -> i1 * whatsInTheBag allBags (colToBag allBags c1)) cont)
+
