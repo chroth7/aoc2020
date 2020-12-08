@@ -39,12 +39,10 @@ initBootState :: BootState
 initBootState = BootState Set.empty 0 0
 
 runBootSequence :: [FullInstruction] -> BootState -> Int
-runBootSequence instructions state@(BootState set idx acc) =
-  if isNewInstruction
-    then
+runBootSequence instructions state@(BootState set idx acc)
+  | isNewInstruction =
        runBootSequence instructions (updateState state (instructions !! idx))
-    else
-      acc
+  | otherwise = acc
   where
     isNewInstruction = not $ idx `Set.member` set
 
