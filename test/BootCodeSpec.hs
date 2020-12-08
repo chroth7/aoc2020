@@ -40,4 +40,7 @@ spec = do
     it "runs" $ do
       runBootSequenceTerminateEndOnly (parseInstructions testInput) initBootState `shouldBe` Nothing
       runBootSequenceTerminateEndOnly (parseInstructions testInputFixed) initBootState `shouldBe` Just 8
+  describe "Can fix instruction set" $ do
+    it "fixes" $ do
+      findTermination (parseInstructions testInput) 0 `shouldBe` Just 8
 
