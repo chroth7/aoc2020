@@ -2,7 +2,8 @@ module BootCode
   ( parseInstructions
   , Instruction(..)
   , FullInstruction(..)
-  , runBootSequence
+  , runBootSequenceTerminateEverywhere
+  , runBootSequenceTerminateEndOnly
   , initBootState
   ) where
 
@@ -38,11 +39,21 @@ parseInstr instr
 initBootState :: BootState
 initBootState = BootState Set.empty 0 0
 
-runBootSequence :: [FullInstruction] -> BootState -> Int
-runBootSequence instructions state@(BootState set idx acc)
+runBootSequenceTerminateEverywhere :: [FullInstruction] -> BootState -> Int
+runBootSequenceTerminateEverywhere instructions state@(BootState set idx acc)
   | isNewInstruction =
-       runBootSequence instructions (updateState state (instructions !! idx))
+       runBootSequenceTerminateEverywhere instructions (updateState state (instructions !! idx))
   | otherwise = acc
+  where
+    isNewInstruction = not $ idx `Set.member` set
+
+runBootSequenceTerminateEndOnly :: [FullInstruction] -> BootState -> Maybe Int
+runBootSequenceTerminateEndOnly instructions state@(BootState set idx acc)
+  | idx == length instructions = Just acc
+  | idx > length instructions = Nothing
+  | isNewInstruction =
+       runBootSequenceTerminateEndOnly instructions (updateState state (instructions !! idx))
+  | otherwise = Nothing
   where
     isNewInstruction = not $ idx `Set.member` set
 

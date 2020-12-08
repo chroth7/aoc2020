@@ -58,7 +58,7 @@ main = do
 
   contentsDay8 <- readFile "inputs/day8.txt"
   putStrLn "Day8.1"
-  print $ runBootSequence (parseInstructions contentsDay8) initBootState
+  print $ runBootSequenceTerminateEverywhere (parseInstructions contentsDay8) initBootState
 
 
 readInt :: [String] -> [Int]
