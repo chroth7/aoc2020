@@ -22,3 +22,6 @@ spec = do
   describe "Parse Instructions" $ do
     it "basic" $ do
       head (parseInstructions testInput) `shouldBe` FullInstruction NOP 0
+  describe "Run instructions" $ do
+    it "runs" $ do
+      runBootSequence (parseInstructions testInput) initBootState `shouldBe` 5
