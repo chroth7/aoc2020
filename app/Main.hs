@@ -2,6 +2,7 @@ module Main where
 
 import           Bags
 import           Boarding
+import           BootCode
 import           Customs
 import           Passports
 import           PasswordsManagement
@@ -54,6 +55,10 @@ main = do
   print $ countContainsGold $ readInputDay7 contentsDay7
   putStrLn "Day7.2"
   print $ whatsInMyGoldenBag $ readInputDay7 contentsDay7
+
+  contentsDay8 <- readFile "inputs/day8.txt"
+  putStrLn "Day8.1"
+  print $ runBootSequence (parseInstructions contentsDay8) initBootState
 
 
 readInt :: [String] -> [Int]
