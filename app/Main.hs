@@ -6,6 +6,7 @@ import           BootCode
 import           Customs
 import           Passports
 import           PasswordsManagement
+import           PortEncoding
 import           SumTo2020
 import           Toboggan
 
@@ -61,6 +62,10 @@ main = do
   print $ runBootSequenceTerminateEverywhere (parseInstructions contentsDay8) initBootState
   putStrLn "Day8.2"
   print $ findTermination (parseInstructions contentsDay8) 0
+
+  contentsDay9 <- readFile "inputs/day9.txt"
+  putStrLn "Day9.1"
+  print $ checkRollingWindow 25 $ parseDay9 contentsDay9
 
 
 readInt :: [String] -> [Int]
