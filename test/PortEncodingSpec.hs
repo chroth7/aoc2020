@@ -40,3 +40,6 @@ spec = do
     it "basic" $ do
       isValidCombination 40 [35, 20, 15, 25, 47] `shouldBe` True
       checkRollingWindow 5 (parseDay9 testInput) `shouldBe` Just 127
+  describe "Find subsequence" $ do
+    it "basic" $ do
+      findSubsequence 127 2 (parseDay9 testInput)  `shouldBe` [15, 25, 47, 40]

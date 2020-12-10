@@ -1,9 +1,11 @@
 module Main where
 
+import           AdapterArray
 import           Bags
 import           Boarding
 import           BootCode
 import           Customs
+import           Data.List
 import           Passports
 import           PasswordsManagement
 import           PortEncoding
@@ -66,7 +68,13 @@ main = do
   contentsDay9 <- readFile "inputs/day9.txt"
   putStrLn "Day9.1"
   print $ checkRollingWindow 25 $ parseDay9 contentsDay9
+  putStrLn "Day9.2"
+  let seq = sort $ findSubsequence 14360655 2 $ parseDay9 contentsDay9
+  print $ head seq + last seq
 
+  contentsDay10 <- readFile "inputs/day10.txt"
+  putStrLn "Day10.1"
+  print $ countJumps $ parseDay10 contentsDay10
 
 readInt :: [String] -> [Int]
 readInt = map read

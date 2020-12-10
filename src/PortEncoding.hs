@@ -2,6 +2,7 @@ module PortEncoding
   ( isValidCombination
   , parseDay9
   , checkRollingWindow
+  , findSubsequence
   ) where
 
 import           Data.List
@@ -27,3 +28,16 @@ checkRollingWindow window ns
   | not valid              = Just $ ns !! window
   | otherwise              = checkRollingWindow window $ tail ns
   where valid = isValidCombination (ns !! window) (take window ns)
+
+findSubsequence :: Int -> Int -> [Int] -> [Int]
+findSubsequence target windowWidth ns
+  -- running out of numbers
+  | windowWidth > length ns = []
+  -- next window
+  | runningSum > target = findSubsequence target 2 $ tail ns
+  -- bigger window
+  | runningSum < target = findSubsequence target (windowWidth + 1) ns
+  -- yay found it
+  | runningSum == target = window
+  where window = take windowWidth ns
+        runningSum = sum window
