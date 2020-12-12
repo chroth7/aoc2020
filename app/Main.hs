@@ -75,6 +75,8 @@ main = do
   contentsDay10 <- readFile "inputs/day10.txt"
   putStrLn "Day10.1"
   print $ countJumps $ parseDay10 contentsDay10
+  putStrLn "Day10.2"
+  print $ getCombis $ splitIntoOneGroups $ getDiffsInJolts $ parseDay10 contentsDay10
 
 readInt :: [String] -> [Int]
 readInt = map read

@@ -48,3 +48,8 @@ spec = do
     it "counts jumps" $ do
       countJumps testInts `shouldBe` (7, 5)
       countJumps (parseDay10 testInput) `shouldBe` (22, 10)
+  describe "Finds ones" $ do
+    it "finds ones" $ do
+      splitIntoOneGroups [1,3,1,1,1,3,1,1,3,1,3,3] `shouldBe` [1,3,2,1]
+    it "works on large list" $ do
+      splitIntoOneGroups (getDiffsInJolts $ parseDay10 testInput) `shouldBe` []
