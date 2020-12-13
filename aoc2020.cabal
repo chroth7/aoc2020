@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5946ed703e5dcd23b542600b4e22c17247462edf8ba3945f80bb8d460f3af1c5
+-- hash: 77ca42b4367ec015e4ac8c0860b772c1895d83e7d38c618531050def1b994985
 
 name:           aoc2020
 version:        0.1.0.0
@@ -75,6 +75,7 @@ test-suite aoc2020-test
       PassportsSpec
       PasswordsManagementSpec
       PortEncodingSpec
+      SeatingSpec
       SumTo2020Spec
       TobogganSpec
       Paths_aoc2020
