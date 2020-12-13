@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a1cb2978f0e987a63a7c4dd17a7e92144a9c68208de5f5e907c08a3718af63cb
+-- hash: 5946ed703e5dcd23b542600b4e22c17247462edf8ba3945f80bb8d460f3af1c5
 
 name:           aoc2020
 version:        0.1.0.0
@@ -37,6 +37,7 @@ library
       Passports
       PasswordsManagement
       PortEncoding
+      Seating
       SumTo2020
       Toboggan
   other-modules:
