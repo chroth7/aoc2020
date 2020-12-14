@@ -91,6 +91,8 @@ main = do
   contentsDay12 <- readFile "inputs/day12.txt"
   putStrLn "Day12.1"
   print $ navigate $ parseDay12 contentsDay12
+  putStrLn "Day12.2"
+  print $ navigateWP $ parseDay12WP contentsDay12
 
 readInt :: [String] -> [Int]
 readInt = map read

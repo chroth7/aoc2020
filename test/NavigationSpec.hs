@@ -6,9 +6,6 @@ import           Test.Hspec
 main :: IO ()
 main = hspec spec
 
-testInts :: [Int]
-testInts = [16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4]
-
 testInput :: String
 testInput = "F10\n\
 \N3\n\
@@ -22,3 +19,7 @@ spec = do
     it "Test navigtion" $ do
       let NavigationState coord _ = navigate (parseDay12 testInput)
       coord `shouldBe` (-8, 17)
+    it "Test navigtion with Waypoints" $ do
+      let WaypointState coord wp = navigateWP (parseDay12WP testInput)
+      wp `shouldBe` (4, -10)
+      coord `shouldBe` (214, -72)

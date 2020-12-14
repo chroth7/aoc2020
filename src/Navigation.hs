@@ -1,18 +1,25 @@
 module Navigation
   ( NavigationState(..)
+  , WaypointState(..)
   , parseDay12
   , moveShip
   , navigate
+  , parseDay12WP
+  , moveShipWP
+  , navigateWP
   ) where
 
 -- helpers
 --
 type Coordinates = (Int, Int)
+type ShipCoordinates = Coordinates
+type WaypointCoordinates = Coordinates
+
 data Direction = North | South | East | West deriving (Show, Eq)
 type Face = Direction
 data ShipAction = Forward | TurnLeft | TurnRight deriving (Show, Eq)
 
--- game
+-- without waypoint
 data Move = ShipMove ShipAction Int | DirectionMove Direction Int deriving (Show, Eq)
 data NavigationState = NavigationState Coordinates Face deriving (Show, Eq)
 
@@ -58,3 +65,43 @@ turnShipRight (NavigationState coord West) n  = turnShipRight (NavigationState c
 navigate :: [Move] -> NavigationState
 navigate = foldl moveShip (NavigationState (0, 0) East)
 
+-- with waypoint
+data WaypointState = WaypointState ShipCoordinates WaypointCoordinates deriving (Show, Eq)
+
+data MoveWP = ShipMoveWP ShipAction Int | MoveWP Direction Int deriving (Show, Eq)
+
+parseDay12WP :: String -> [MoveWP]
+parseDay12WP str = map str2moveWP ls
+  where ls = lines str
+
+str2moveWP :: String -> MoveWP
+str2moveWP s
+  | char == "N" = MoveWP North n
+  | char == "E" = MoveWP East n
+  | char == "S" = MoveWP South n
+  | char == "W" = MoveWP West n
+  | char == "F" = ShipMoveWP Forward n
+  | char == "L" = ShipMoveWP TurnLeft n
+  | char == "R" = ShipMoveWP TurnRight n
+  where char = take 1 s
+        n    = read $ drop 1 s
+
+moveShipWP :: WaypointState -> MoveWP -> WaypointState
+moveShipWP (WaypointState ship (wx, wy)) (MoveWP North n)    = WaypointState ship (wx, wy + n)
+moveShipWP (WaypointState ship (wx, wy)) (MoveWP South n)    = WaypointState ship (wx, wy - n)
+moveShipWP (WaypointState ship (wx, wy)) (MoveWP East n)     = WaypointState ship (wx + n, wy)
+moveShipWP (WaypointState ship (wx, wy)) (MoveWP West n)     = WaypointState ship (wx - n, wy)
+moveShipWP (WaypointState (x, y) (wx, wy)) (ShipMoveWP Forward n) = WaypointState (x + n * wx, y + n * wy) (wx, wy)
+moveShipWP state (ShipMoveWP TurnLeft n) = turnShipLeftWP state (n `div` 90)
+moveShipWP state (ShipMoveWP TurnRight n) = turnShipRightWP state (n `div` 90)
+
+turnShipLeftWP :: WaypointState -> Int -> WaypointState
+turnShipLeftWP s 0                   = s
+turnShipLeftWP (WaypointState coord (x, y)) n = turnShipLeftWP (WaypointState coord (-y, x)) (n - 1)
+
+turnShipRightWP :: WaypointState -> Int -> WaypointState
+turnShipRightWP s 0                   = s
+turnShipRightWP (WaypointState coord (x, y)) n = turnShipRightWP (WaypointState coord (y, -x)) (n - 1)
+
+navigateWP :: [MoveWP] -> WaypointState
+navigateWP = foldl moveShipWP (WaypointState (0, 0) (10, 1))
