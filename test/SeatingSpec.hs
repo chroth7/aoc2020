@@ -54,17 +54,19 @@ spec = do
       last seats `shouldBe` ((9,9), [(8,8), (8,9), (9,8)], Free)
   describe "Update layout" $ do
     it "works" $ do
+      let config = Config 3 getNeighbors
       let layout = parseDay11 testInput
       let expectedStep1 = parseDay11 step1
       let expectedStep2 = parseDay11 step2
 
-      let step1 = applyUpdate 3 layout
+      let step1 = applyUpdate config layout
       step1 `shouldBe` expectedStep1
 
-      let step2 = applyUpdate 3 $ applyUpdate 3 layout
+      let step2 = applyUpdate config $ applyUpdate config layout
       step2 `shouldBe` expectedStep2
 
     describe "Full flow" $ do
       it "does the job" $ do
-        (countTotalOccupied $ rinseAndRepeatSeating 3 $ parseDay11 testInput) `shouldBe` 37
+        let config = Config 3 getNeighbors
+        (countTotalOccupied $ rinseAndRepeatSeating config $ parseDay11 testInput) `shouldBe` 37
 

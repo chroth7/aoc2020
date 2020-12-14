@@ -1,6 +1,8 @@
 module Seating
   ( SeatStatus(..)
   , Layout(..)
+  , Config(..)
+  , getNeighbors
   , parseDay11
   , changeStatus
   , countOccAroundSeat
@@ -26,6 +28,10 @@ type SeatingPlan = [Seat]
 
 data Layout = Layout Rows Columns SeatingPlan deriving (Eq, Show)
 
+type OccThreshold = Int
+type NeighborFunction = Rows -> Columns -> SeatCoordinates -> [SeatCoordinates]
+data Config = Config OccThreshold NeighborFunction
+
 -- PARSE
 parseDay11 :: String -> Layout
 parseDay11 str = Layout numberRows numberCols $ concatMap (uncurry (parseRow numberRows numberCols)) numberedRows
@@ -39,7 +45,7 @@ parseRow rows columns rowIdx row = map parseSeat numberedRow
   where parseSeat (colIdx, char) = ((rowIdx, colIdx), getNeighbors rows columns (rowIdx, colIdx), parseChar char)
         numberedRow = zip [0..] row
 
-getNeighbors :: Rows -> Columns -> SeatCoordinates -> [SeatCoordinates]
+getNeighbors :: NeighborFunction
 getNeighbors rows columns (row, col) = [(x, y) | x <- [row-1..row+1], y <- [col-1..col+1], (x, y) /= (row, col), x >= 0, y >= 0, x < rows, y < columns]
 
 parseChar :: Char -> SeatStatus
@@ -48,12 +54,12 @@ parseChar '#' = Occupied
 parseChar _   = NoSeat
 
 -- UPDATE STATUS
-changeStatus :: Int -> SeatStatus -> Int -> SeatStatus
+changeStatus :: Config -> SeatStatus -> Int -> SeatStatus
 changeStatus _ NoSeat _ = NoSeat
 changeStatus _ Free occ
   | occ > 0 = Free
   | otherwise = Occupied
-changeStatus n Occupied occ
+changeStatus (Config n _) Occupied occ
   | occ > n = Free
   | otherwise = Occupied
 
@@ -67,15 +73,15 @@ isOcc plan coord = if state == Occupied then 1 else 0
 getSeat :: SeatCoordinates -> SeatingPlan -> Maybe Seat
 getSeat coord = find (\(coo, _, _) -> coo == coord)
 
-applyUpdate :: Int -> Layout -> Layout
-applyUpdate n layout@(Layout r c plan) = Layout r c $ map (updateSeat n layout) plan
+applyUpdate :: Config -> Layout -> Layout
+applyUpdate config layout@(Layout r c plan) = Layout r c $ map (updateSeat config layout) plan
 
-updateSeat :: Int -> Layout -> Seat -> Seat
-updateSeat n layout ((x, y), neighbors, status) = ((x, y), neighbors, changeStatus n status (countOccAroundSeat layout neighbors))
+updateSeat :: Config -> Layout -> Seat -> Seat
+updateSeat config layout ((x, y), neighbors, status) = ((x, y), neighbors, changeStatus config status (countOccAroundSeat layout neighbors))
 
-rinseAndRepeatSeating :: Int -> Layout -> Layout
-rinseAndRepeatSeating n layout = if isStable then updated else rinseAndRepeatSeating n updated
-  where updated = applyUpdate n layout
+rinseAndRepeatSeating :: Config -> Layout -> Layout
+rinseAndRepeatSeating config layout = if isStable then updated else rinseAndRepeatSeating config updated
+  where updated = applyUpdate config layout
         isStable = layout == updated
 
 countTotalOccupied :: Layout -> Int
