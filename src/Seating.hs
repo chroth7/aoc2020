@@ -57,15 +57,19 @@ getNeighbors :: NeighborFunction
 getNeighbors _ rows columns (row, col) = [(x, y) | x <- [row-1..row+1], y <- [col-1..col+1], (x, y) /= (row, col), x >= 0, y >= 0, x < rows, y < columns]
 
 getNeighborsFar :: NeighborFunction
-getNeighborsFar plan rows columns (row, col) = findNextSeatInDirection plan (1, 1) rows columns (row, col)
+getNeighborsFar plan rows columns (row, col) = findAllDirections plan rows columns (row, col)
+
+findAllDirections :: SeatingPlan -> Rows -> Columns -> SeatCoordinates -> [SeatCoordinates]
+findAllDirections plan rows columns coords = concatMap (\direction -> findNextSeatInDirection plan direction rows columns coords) directions
+  where directions = [(x,y) | x <- [-1..1], y <- [-1..1], (x,y) /= (0, 0)]
 
 findNextSeatInDirection :: SeatingPlan -> (Row, Column) -> Rows -> Columns -> SeatCoordinates -> [SeatCoordinates]
-findNextSeatInDirection plan direction@(rr, cc) rows columns (r, c) = if outOfBounds
-    then []
-    else
-      if hasSeat then [candidate] else findNextSeatInDirection plan direction rows columns candidate
+findNextSeatInDirection plan direction@(rr, cc) rows columns (r, c)
+  | outOfBounds = []
+  | hasSeat     = [candidate]
+  | otherwise   = findNextSeatInDirection plan direction rows columns candidate
   where candidate@(rrr, ccc) = (r + rr, c + cc)
-        outOfBounds = rrr < 0 || rrr > rows || ccc < 0 || ccc > columns
+        outOfBounds = rrr < 0 || rrr >= rows || ccc < 0 || ccc >= columns
         hasSeat = isSeat plan candidate
 
 
@@ -88,7 +92,7 @@ countOccAroundSeat :: Layout -> SeatNeighbors -> Int
 countOccAroundSeat (Layout _ _ seating) neighbors = sum $ map (isOcc seating) neighbors
 
 isSeat :: SeatingPlan -> SeatCoordinates -> Bool
-isSeat plan coord = state == NoSeat
+isSeat plan coord = state /= NoSeat
   where (_, _, state) = fromJust $ getSeat coord plan
 
 isOcc :: SeatingPlan -> SeatCoordinates -> Int

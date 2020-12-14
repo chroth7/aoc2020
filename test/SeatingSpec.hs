@@ -71,3 +71,8 @@ spec = do
         let config = Config 3 getNeighbors
         (countTotalOccupied $ rinseAndRepeatSeating config $ parseDay11 config testInput) `shouldBe` 37
 
+    describe "Part 2" $ do
+      it "does the job" $ do
+        let config = Config 4 getNeighborsFar
+        (countTotalOccupied $ rinseAndRepeatSeating config $ parseDay11 config testInput) `shouldBe` 26
+
