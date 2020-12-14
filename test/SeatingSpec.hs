@@ -46,7 +46,8 @@ spec :: Spec
 spec = do
   describe "Parse" $ do
     it "works" $ do
-      let Layout rows cols seats = parseDay11 testInput
+      let config = Config 3 getNeighbors
+      let Layout rows cols seats = parseDay11 config testInput
       rows `shouldBe` 10
       cols `shouldBe` 10
       length seats `shouldBe` 100
@@ -55,9 +56,9 @@ spec = do
   describe "Update layout" $ do
     it "works" $ do
       let config = Config 3 getNeighbors
-      let layout = parseDay11 testInput
-      let expectedStep1 = parseDay11 step1
-      let expectedStep2 = parseDay11 step2
+      let layout = parseDay11 config testInput
+      let expectedStep1 = parseDay11 config step1
+      let expectedStep2 = parseDay11 config step2
 
       let step1 = applyUpdate config layout
       step1 `shouldBe` expectedStep1
@@ -68,5 +69,5 @@ spec = do
     describe "Full flow" $ do
       it "does the job" $ do
         let config = Config 3 getNeighbors
-        (countTotalOccupied $ rinseAndRepeatSeating config $ parseDay11 testInput) `shouldBe` 37
+        (countTotalOccupied $ rinseAndRepeatSeating config $ parseDay11 config testInput) `shouldBe` 37
 

@@ -3,6 +3,7 @@ module Seating
   , Layout(..)
   , Config(..)
   , getNeighbors
+  , getNeighborsFar
   , parseDay11
   , changeStatus
   , countOccAroundSeat
@@ -29,24 +30,44 @@ type SeatingPlan = [Seat]
 data Layout = Layout Rows Columns SeatingPlan deriving (Eq, Show)
 
 type OccThreshold = Int
-type NeighborFunction = Rows -> Columns -> SeatCoordinates -> [SeatCoordinates]
+type NeighborFunction = SeatingPlan -> Rows -> Columns -> SeatCoordinates -> [SeatCoordinates]
 data Config = Config OccThreshold NeighborFunction
 
 -- PARSE
-parseDay11 :: String -> Layout
-parseDay11 str = Layout numberRows numberCols $ concatMap (uncurry (parseRow numberRows numberCols)) numberedRows
+parseDay11 :: Config -> String -> Layout
+parseDay11 config str = Layout numberRows numberCols seatingPlan
   where rows = lines str
         numberRows = length rows
         numberCols = length $ head rows
         numberedRows = zip [0..] rows
+        seatingPlanWithoutNeighbors = concatMap (uncurry parseRowWithoutNeighbors) numberedRows
+        seatingPlan = addNeighbors config numberRows numberCols seatingPlanWithoutNeighbors
 
-parseRow :: Rows -> Columns -> Int -> String -> [Seat]
-parseRow rows columns rowIdx row = map parseSeat numberedRow
-  where parseSeat (colIdx, char) = ((rowIdx, colIdx), getNeighbors rows columns (rowIdx, colIdx), parseChar char)
+addNeighbors :: Config -> Rows -> Columns -> SeatingPlan -> SeatingPlan
+addNeighbors (Config _ fct) rows columns plan = map (\(coord, _, status) -> (coord, neighbors coord, status)) plan
+  where neighbors coord = fct plan rows columns coord
+
+parseRowWithoutNeighbors :: Int -> String -> [Seat]
+parseRowWithoutNeighbors rowIdx row = map parseSeat numberedRow
+  where parseSeat (colIdx, char) = ((rowIdx, colIdx), [], parseChar char)
         numberedRow = zip [0..] row
 
+-- NEIGHBORS
 getNeighbors :: NeighborFunction
-getNeighbors rows columns (row, col) = [(x, y) | x <- [row-1..row+1], y <- [col-1..col+1], (x, y) /= (row, col), x >= 0, y >= 0, x < rows, y < columns]
+getNeighbors _ rows columns (row, col) = [(x, y) | x <- [row-1..row+1], y <- [col-1..col+1], (x, y) /= (row, col), x >= 0, y >= 0, x < rows, y < columns]
+
+getNeighborsFar :: NeighborFunction
+getNeighborsFar plan rows columns (row, col) = findNextSeatInDirection plan (1, 1) rows columns (row, col)
+
+findNextSeatInDirection :: SeatingPlan -> (Row, Column) -> Rows -> Columns -> SeatCoordinates -> [SeatCoordinates]
+findNextSeatInDirection plan direction@(rr, cc) rows columns (r, c) = if outOfBounds
+    then []
+    else
+      if hasSeat then [candidate] else findNextSeatInDirection plan direction rows columns candidate
+  where candidate@(rrr, ccc) = (r + rr, c + cc)
+        outOfBounds = rrr < 0 || rrr > rows || ccc < 0 || ccc > columns
+        hasSeat = isSeat plan candidate
+
 
 parseChar :: Char -> SeatStatus
 parseChar 'L' = Free
@@ -65,6 +86,10 @@ changeStatus (Config n _) Occupied occ
 
 countOccAroundSeat :: Layout -> SeatNeighbors -> Int
 countOccAroundSeat (Layout _ _ seating) neighbors = sum $ map (isOcc seating) neighbors
+
+isSeat :: SeatingPlan -> SeatCoordinates -> Bool
+isSeat plan coord = state == NoSeat
+  where (_, _, state) = fromJust $ getSeat coord plan
 
 isOcc :: SeatingPlan -> SeatCoordinates -> Int
 isOcc plan coord = if state == Occupied then 1 else 0
