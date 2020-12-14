@@ -9,6 +9,7 @@ import           Data.List
 import           Passports
 import           PasswordsManagement
 import           PortEncoding
+import           Seating
 import           SumTo2020
 import           Toboggan
 
@@ -77,6 +78,10 @@ main = do
   print $ countJumps $ parseDay10 contentsDay10
   putStrLn "Day10.2"
   print $ getCombis $ splitIntoOneGroups $ getDiffsInJolts $ parseDay10 contentsDay10
+
+  contentsDay11 <- readFile "inputs/day11.txt"
+  putStrLn "Day11.1"
+  print $ countTotalOccupied $ rinseAndRepeatSeating $ parseDay11 contentsDay11
 
 readInt :: [String] -> [Int]
 readInt = map read
