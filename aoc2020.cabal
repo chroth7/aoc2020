@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 77ca42b4367ec015e4ac8c0860b772c1895d83e7d38c618531050def1b994985
+-- hash: 1134a81491e8a9faeca268546e26d0dad5961349bf5d182d8752f27491f94900
 
 name:           aoc2020
 version:        0.1.0.0
@@ -34,6 +34,7 @@ library
       BootCode
       Customs
       Lib
+      Navigation
       Passports
       PasswordsManagement
       PortEncoding
@@ -72,6 +73,7 @@ test-suite aoc2020-test
       BoardingSpec
       BootCodeSpec
       CustomsSpec
+      NavigationSpec
       PassportsSpec
       PasswordsManagementSpec
       PortEncodingSpec

@@ -6,6 +6,7 @@ import           Boarding
 import           BootCode
 import           Customs
 import           Data.List
+import           Navigation
 import           Passports
 import           PasswordsManagement
 import           PortEncoding
@@ -86,6 +87,10 @@ main = do
   putStrLn "Day11.2"
   -- print $ countTotalOccupied $ rinseAndRepeatSeating (Config 4 getNeighborsFar) $ parseDay11 (Config 4 getNeighborsFar) contentsDay11
   print 2134
+
+  contentsDay12 <- readFile "inputs/day12.txt"
+  putStrLn "Day12.1"
+  print $ navigate $ parseDay12 contentsDay12
 
 readInt :: [String] -> [Int]
 readInt = map read
