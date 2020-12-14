@@ -48,13 +48,13 @@ parseChar '#' = Occupied
 parseChar _   = NoSeat
 
 -- UPDATE STATUS
-changeStatus :: SeatStatus -> Int -> SeatStatus
-changeStatus NoSeat _ = NoSeat
-changeStatus Free occ
+changeStatus :: Int -> SeatStatus -> Int -> SeatStatus
+changeStatus _ NoSeat _ = NoSeat
+changeStatus _ Free occ
   | occ > 0 = Free
   | otherwise = Occupied
-changeStatus Occupied occ
-  | occ > 3 = Free
+changeStatus n Occupied occ
+  | occ > n = Free
   | otherwise = Occupied
 
 countOccAroundSeat :: Layout -> SeatNeighbors -> Int
@@ -67,15 +67,15 @@ isOcc plan coord = if state == Occupied then 1 else 0
 getSeat :: SeatCoordinates -> SeatingPlan -> Maybe Seat
 getSeat coord = find (\(coo, _, _) -> coo == coord)
 
-applyUpdate :: Layout -> Layout
-applyUpdate layout@(Layout r c plan) = Layout r c $ map (updateSeat layout) plan
+applyUpdate :: Int -> Layout -> Layout
+applyUpdate n layout@(Layout r c plan) = Layout r c $ map (updateSeat n layout) plan
 
-updateSeat :: Layout -> Seat -> Seat
-updateSeat layout ((x, y), neighbors, status) = ((x, y), neighbors, changeStatus status (countOccAroundSeat layout neighbors))
+updateSeat :: Int -> Layout -> Seat -> Seat
+updateSeat n layout ((x, y), neighbors, status) = ((x, y), neighbors, changeStatus n status (countOccAroundSeat layout neighbors))
 
-rinseAndRepeatSeating :: Layout -> Layout
-rinseAndRepeatSeating layout = if isStable then updated else rinseAndRepeatSeating updated
-  where updated = applyUpdate layout
+rinseAndRepeatSeating :: Int -> Layout -> Layout
+rinseAndRepeatSeating n layout = if isStable then updated else rinseAndRepeatSeating n updated
+  where updated = applyUpdate n layout
         isStable = layout == updated
 
 countTotalOccupied :: Layout -> Int

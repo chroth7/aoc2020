@@ -81,7 +81,7 @@ main = do
 
   contentsDay11 <- readFile "inputs/day11.txt"
   putStrLn "Day11.1"
-  print $ countTotalOccupied $ rinseAndRepeatSeating $ parseDay11 contentsDay11
+  print $ countTotalOccupied $ rinseAndRepeatSeating 3 $ parseDay11 contentsDay11
 
 readInt :: [String] -> [Int]
 readInt = map read

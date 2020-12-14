@@ -58,13 +58,13 @@ spec = do
       let expectedStep1 = parseDay11 step1
       let expectedStep2 = parseDay11 step2
 
-      let step1 = applyUpdate layout
+      let step1 = applyUpdate 3 layout
       step1 `shouldBe` expectedStep1
 
-      let step2 = applyUpdate $ applyUpdate layout
+      let step2 = applyUpdate 3 $ applyUpdate 3 layout
       step2 `shouldBe` expectedStep2
 
     describe "Full flow" $ do
       it "does the job" $ do
-        (countTotalOccupied $ rinseAndRepeatSeating $ parseDay11 testInput) `shouldBe` 37
+        (countTotalOccupied $ rinseAndRepeatSeating 3 $ parseDay11 testInput) `shouldBe` 37
 
