@@ -50,16 +50,13 @@ spec = do
       rows `shouldBe` 10
       cols `shouldBe` 10
       length seats `shouldBe` 100
-      head seats `shouldBe` ((0,0), Free)
-      last seats `shouldBe` ((9,9), Free)
+      head seats `shouldBe` ((0,0), [(0,1), (1,0), (1,1)], Free)
+      last seats `shouldBe` ((9,9), [(8,8), (8,9), (9,8)], Free)
   describe "Update layout" $ do
     it "works" $ do
       let layout = parseDay11 testInput
       let expectedStep1 = parseDay11 step1
       let expectedStep2 = parseDay11 step2
-
-      countOccAroundSeat expectedStep1 (0,6) `shouldBe` 3
-      countOccAroundSeat expectedStep1 (0,2) `shouldBe` 4
 
       let step1 = applyUpdate layout
       step1 `shouldBe` expectedStep1
