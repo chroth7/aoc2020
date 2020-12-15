@@ -98,6 +98,8 @@ main = do
   contentsDay13 <- readFile "inputs/day13.txt"
   putStrLn "Day13.1"
   print $ nextBusMagicNumber $ parseDay13 contentsDay13
+  putStrLn "Day13.2"
+  print $ busPart2 (parseDay13p2 contentsDay13) 1
 
 readInt :: [String] -> [Int]
 readInt = map read
