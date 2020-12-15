@@ -4,6 +4,7 @@ import           AdapterArray
 import           Bags
 import           Boarding
 import           BootCode
+import           BusService
 import           Customs
 import           Data.List
 import           Navigation
@@ -93,6 +94,10 @@ main = do
   print $ navigate $ parseDay12 contentsDay12
   putStrLn "Day12.2"
   print $ navigateWP $ parseDay12WP contentsDay12
+
+  contentsDay13 <- readFile "inputs/day13.txt"
+  putStrLn "Day13.1"
+  print $ nextBusMagicNumber $ parseDay13 contentsDay13
 
 readInt :: [String] -> [Int]
 readInt = map read

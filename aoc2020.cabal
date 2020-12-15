@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1df65fef13bcdd1721324fc3242186a0d8586f2bbc4b3bf9d312aad4c0b6a763
+-- hash: d58b70c2ef54e450dde8ce7b06191fb5921fad0d0faac361fb2f9b043315f7ca
 
 name:           aoc2020
 version:        0.1.0.0
@@ -50,6 +50,7 @@ library
       base >=4.7 && <5
     , containers
     , regex-posix
+    , split
     , text
   default-language: Haskell2010
 
@@ -73,6 +74,7 @@ test-suite aoc2020-test
       BagsSpec
       BoardingSpec
       BootCodeSpec
+      BusServiceSpec
       CustomsSpec
       NavigationSpec
       PassportsSpec

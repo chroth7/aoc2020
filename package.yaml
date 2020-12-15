@@ -28,6 +28,7 @@ library:
   - text
   - regex-posix
   - containers
+  - split
 
 executables:
   aoc2020-exe:
