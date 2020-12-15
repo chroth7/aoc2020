@@ -40,13 +40,20 @@ parseDay13p2 str = BusState2 bs
         splits = splitOn "," $ ls !! 1
         withDelay = zip splits [0..]
         filtered = filter (\(id, _) -> id /= "x") withDelay
-        bs = map (first read) filtered
+        bs = reverse $ sort $ map (first read) filtered
 
-busPart2 :: BusState2 -> Integer -> Integer
-busPart2 state@(BusState2 busses) time
-  | check    = time
-  | otherwise = busPart2 state (time + 1)
-  where check = all (checkBus2 time) busses
+busPart2 :: BusState2 -> Integer -> Integer -> Integer
+busPart2 state@(BusState2 (bus@(id, _): busses)) time increment
+  | null busses = finalBus bus time increment
+  | check       = busPart2 (BusState2 busses) time (increment * id)
+  | otherwise   = busPart2 state (time + increment) increment
+  where check   = checkBus2 time bus
+
+finalBus :: (BusId, Delay) -> Integer -> Integer -> Integer
+finalBus bus time increment
+  | check = time
+  | otherwise = finalBus bus (time + increment) increment
+  where check = checkBus2 time bus
 
 checkBus2 :: Integer -> (BusId, Delay) -> Bool
 checkBus2 t (id, delay) = (t + delay) `rem` id == 0
