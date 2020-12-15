@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1134a81491e8a9faeca268546e26d0dad5961349bf5d182d8752f27491f94900
+-- hash: 1df65fef13bcdd1721324fc3242186a0d8586f2bbc4b3bf9d312aad4c0b6a763
 
 name:           aoc2020
 version:        0.1.0.0
@@ -32,6 +32,7 @@ library
       Bags
       Boarding
       BootCode
+      BusService
       Customs
       Lib
       Navigation
